@@ -38,7 +38,7 @@ tasks.withType<KotlinCompile>() {
 
 gradlePlugin {
     plugins {
-        create("ktor-client-gen") {
+        create("coroutines-converter") {
             id = "nl.blackstardlb.coroutines-converter"
             implementationClass = "nl.blackstardlb.gradle.coroutinesconverter.CoroutinesConverterPlugin"
         }
@@ -46,14 +46,14 @@ gradlePlugin {
 }
 
 pluginBundle {
-    website = "http://www.gradle.org/"
-    vcsUrl = "https://github.com/gradle/gradle"
-    description = "Greetings from here!"
-    tags = listOf("greetings", "salutations")
+    website = "https://github.com/blackstardlb/coroutines-converter"
+    vcsUrl = "https://github.com/blackstardlb/coroutines-converter"
+    description = "Convert coroutines to futures / reactor for java projects"
+    tags = listOf("coroutines", "completablefutures", "reactor")
 
     plugins {
-        getByName("ktor-client-gen") {
-            displayName = "Gradle Greeting plugin"
+        getByName("coroutines-converter") {
+            displayName = "Coroutines Converter Plugin"
         }
     }
 }
