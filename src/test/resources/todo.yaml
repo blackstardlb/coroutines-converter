@@ -1,0 +1,158 @@
+openapi: 3.0.0
+info:
+  description: Todo Backend API
+  version: 1.0.0
+  title: Todos API
+  termsOfService: http://nick.gs/
+  contact:
+    email: nick@nick.gs
+  license:
+    name: GPL
+    url: http://www.fsf.org
+tags:
+  - name: todos
+    description: Manipluation of Todos
+externalDocs:
+  description: Example REST API using Scala, Guardrail
+  url: https://github.com/nickfun/learning-guardrail
+paths:
+  /todos:
+    delete:
+      tags:
+        - todos
+      summary: remove all todos
+      description: ""
+      operationId: deleteAllTodos
+      responses:
+        "200":
+          description: successful operation
+    post:
+      tags:
+        - todos
+      summary: Add a new todo
+      description: ""
+      operationId: addTodo
+      requestBody:
+        $ref: "#/components/requestBodies/Todo"
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Todo"
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                type: string
+    get:
+      tags:
+        - todos
+      summary: view all known Todos
+      description: ""
+      operationId: getTodoList
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Todo"
+        "500":
+          description: Database error
+  "/todos/{todoId}":
+    get:
+      tags:
+        - todos
+      summary: Details of one Todo
+      description: ""
+      operationId: getTodoById
+      parameters:
+        - name: todoId
+          in: path
+          description: ""
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Todo"
+        "404":
+          description: Invalid Todo ID value
+    delete:
+      tags:
+        - todos
+      summary: delete a single todo
+      description: ""
+      operationId: deleteTodoById
+      parameters:
+        - name: todoId
+          in: path
+          description: ""
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: successful operation
+        "404":
+          description: can not find todo
+    patch:
+      tags:
+        - todos
+      summary: Update an existing Todo
+      description: ""
+      operationId: updateTodoById
+      parameters:
+        - name: todoId
+          in: path
+          description: ""
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/Todo"
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Todo"
+        "404":
+          description: Todo not found
+servers:
+  - url: https://todos.nick.gs
+  - url: http://todos.nick.gs
+components:
+  requestBodies:
+    Todo:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Todo"
+      description: Todo Object
+      required: true
+  schemas:
+    Todo:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        order:
+          type: integer
+          format: int32
+        completed:
+          type: boolean
+        url:
+          type: string
